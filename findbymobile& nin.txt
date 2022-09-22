@@ -1,0 +1,50 @@
+https://www.youtube.com/watch?v=EU0jFO8qqDc&feature=youtu.be
+ @Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Entity
+@Table(name="Customer")
+public class Fintech {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    private String firstname;
+    private String mobile;
+    private String nin;
+}
+
+----------------------------------
+@Repository
+public interface FintechService {
+List<Fintech>findByMobileAndNin(String mobile,String nin);
+----------------------------------------------------
+
+@Service
+public class FintechServiceImpl implements FintechService 
+
+@Override
+public List<Fintech>findByMobileAndNin(String mobile, String nin)
+{
+    return repository.findByMobileAndNin(mobile,nin);
+}
+
+
+--------------------------------------
+public interface Repository extends JpaRepository<Fintech,Long> {
+    
+    //Select * from table where mobile="s" AND nin="45"
+    List<Fintech>findByMobileAndNin(String mobile, String nin);
+
+}
+
+----------------------------------------------
+
+
+ @GetMapping("/customer/findByMobileAndNin")
+    public ResponseEntity<List<Fintech>> findBymobileAndnin(@RequestParam String mobile, @RequestParam String nin)
+    {
+        return new ResponseEntity<List<Fintech>>(fintechServie.findByMobileAndNin(mobile,nin), HttpStatus.OK);
+
+    }

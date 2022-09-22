@@ -1,0 +1,35 @@
+@GetMapping("/customer/mobile")
+public ResponseEntity<List<Fintech>> getcustomerbyid(@RequestParam String mobile)
+{
+    return new ResponseEntity<List<Fintech>>(fintechService.getcustomerbymobile(mobile),HttpStatus.OK);
+}
+
+------------------------------------------------------
+
+public class FintechServiceImpl implements FintechService {
+    @Autowired
+    private Repository repository;
+
+    public FintechServiceImpl(Repository repository) {
+        this.repository = repository;
+    }
+
+
+@Override
+public List<Fintech>getcustomerbymobile(String mobile)
+{
+    return repository.findBymobile(mobile);
+}
+
+----------------------------------------------
+public interface FintechService { 
+
+List<Fintech> getcustomerbymobile(String mobile);
+}
+----------------------------------------
+public interface Repository extends JpaRepository<Fintech,Long> {
+    List <Fintech>findBymobile(String mobile);
+}
+-----------------------------------------
+===================================================
+findbyname and 
